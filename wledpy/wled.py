@@ -17,7 +17,7 @@ class Wled():
     def __init__(self, host):
         self.host = host
 
-        self.effects = self.get_effects()
+        self._effects = self.get_effects()
 
         self._name = None
         self._state = None
