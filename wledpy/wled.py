@@ -97,9 +97,11 @@ class Wled():
         state = {"on": False}
         response = self.set_state(state)
         response_json = json.loads(response.text)
-        self._state = response_json["state"]["on"]
+        # self._state = response_json["state"]["on"]
 
-        if self._state == False:
+        if response_json["success"]:
+            # TODO state handling very broken
+            # self._state["on"] = False	
             return True
         else:
             return False
@@ -109,9 +111,11 @@ class Wled():
         state = {"on": True}
         response = self.set_state(state)
         response_json = json.loads(response.text)
-        self._state = response_json["state"]["on"]
+        # self._state = response_json["state"]["on"]
 
-        if self._state == True:
+        if response_json["success"]:
+            # TODO state handling very broken
+            # self._state["on"] = True	
             return True
         else:
             return False
@@ -236,6 +240,17 @@ class Wled():
         return self.get_state()["seg"][0]["col"][0]
 
 
+    def segment_individual_led_control(self, leds):
+        """
+        Sets the led colors individually. For the data format see
+        https://github.com/Aircoookie/WLED/wiki/JSON-API#per-segment-individual-led-control
+
+        Parameters:
+            led: Definition of led colors. Format can vary
+        """
+        state = {"seg": [{"i": leds  }]}
+        return self.set_state(state)
+
     @property
     def brightness(self):
         return self._brightness
@@ -283,4 +298,4 @@ class Wled():
     @property
     def state(self):
         return self._state
-    
+   
